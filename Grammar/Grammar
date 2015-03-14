@@ -114,7 +114,7 @@ testlist: test (',' test)* [',']
 dictorsetmaker: ( (test ':' test (comp_for | (',' test ':' test)* [','])) |
                   (test (comp_for | (',' test)* [','])) )
 
-classdef: NAME ('class' | '类') ['(' [arglist] ')'] ':' suite
+classdef: ('class' | '类') NAME ['(' [arglist] ')'] ':' suite
 
 arglist: (argument ',')* (argument [',']
                          |'*' test (',' argument)* [',' '**' test] 
