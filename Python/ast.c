@@ -1836,11 +1836,11 @@ ast_for_atom(struct compiling *c, const node *n)
         const char *s = STR(ch);
         size_t len = strlen(s);
         if (len >= 4 && len <= 5) {
-            if (!strcmp(s, "None"))
+            if (!strcmp(s, "None") || !strcmp(s, "空"))
                 return NameConstant(Py_None, LINENO(n), n->n_col_offset, c->c_arena);
-            if (!strcmp(s, "True"))
+            if (!strcmp(s, "True") || !strcmp(s, "真"))
                 return NameConstant(Py_True, LINENO(n), n->n_col_offset, c->c_arena);
-            if (!strcmp(s, "False"))
+            if (!strcmp(s, "False") || !strcmp(s, "假"))
                 return NameConstant(Py_False, LINENO(n), n->n_col_offset, c->c_arena);
         }
         name = new_identifier(s, c);
@@ -2310,10 +2310,10 @@ ast_for_expr(struct compiling *c, const node *n)
                     return NULL;
                 asdl_seq_SET(seq, i / 2, e);
             }
-            if (!strcmp(STR(CHILD(n, 1)), "and"))
+            if (!strcmp(STR(CHILD(n, 1)), "and") || !strcmp(STR(CHILD(n, 1)), "且"))
                 return BoolOp(And, seq, LINENO(n), n->n_col_offset,
                               c->c_arena);
-            assert(!strcmp(STR(CHILD(n, 1)), "or"));
+            assert(!strcmp(STR(CHILD(n, 1)), "or") || !strcmp(STR(CHILD(n, 1)), "或"));
             return BoolOp(Or, seq, LINENO(n), n->n_col_offset, c->c_arena);
         case not_test:
             if (NCH(n) == 1) {

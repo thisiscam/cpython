@@ -82,7 +82,7 @@ suite: simple_stmt | NEWLINE INDENT stmt+ DEDENT
 
 test: or_test [('if' | '如果') or_test ('else' | '否则') test] | lambdef
 test_nocond: or_test | lambdef_nocond
-lambdef: 'lambda' [varargslist] ':' test
+lambdef: ('lambda' | '戌') [varargslist] ':' test
 lambdef_nocond: 'lambda' [varargslist] ':' test_nocond
 or_test: and_test (('or' | '或') and_test)*
 and_test: not_test (('and' | '且') not_test)*
