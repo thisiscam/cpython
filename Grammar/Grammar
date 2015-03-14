@@ -44,24 +44,24 @@ augassign: ('+=' | '-=' | '*=' | '@=' | '/=' | '%=' | '&=' | '|=' | '^=' |
             '<<=' | '>>=' | '**=' | '//=')
 # For normal assignments, additional restrictions enforced by the interpreter
 del_stmt: ('del' | '删除')  exprlist
-pass_stmt: 'pass'
+pass_stmt: ('pass' | '过')
 flow_stmt: break_stmt | continue_stmt | return_stmt | raise_stmt | yield_stmt
-break_stmt: 'break'
-continue_stmt: 'continue'
+break_stmt: ('break' | '跳出')
+continue_stmt: ('continue' | '继续')
 return_stmt: ('return' | '返回') [testlist]
 yield_stmt: yield_expr
-raise_stmt: 'raise' [test ['from' test]]
+raise_stmt: ('raise' | '升起') [test [('from' | '从') test]]
 import_stmt: import_name | import_from
-import_name: 'import' dotted_as_names
+import_name: ('import' | '引进') dotted_as_names
 # note below: the ('.' | '...') is necessary because '...' is tokenized as ELLIPSIS
-import_from: ('from' (('.' | '...')* dotted_name | ('.' | '...')+)
-              'import' ('*' | '(' import_as_names ')' | import_as_names))
-import_as_name: NAME ['as' NAME]
-dotted_as_name: dotted_name ['as' NAME]
+import_from: (('from' | '从') (('.' | '...')* dotted_name | ('.' | '...')+)
+              ('import' | '引进') ('*' | '(' import_as_names ')' | import_as_names))
+import_as_name: NAME [('as' | '作为') NAME]
+dotted_as_name: dotted_name [('as' | '作为') NAME]
 import_as_names: import_as_name (',' import_as_name)* [',']
 dotted_as_names: dotted_as_name (',' dotted_as_name)*
 dotted_name: NAME ('.' NAME)*
-global_stmt: 'global' NAME (',' NAME)*
+global_stmt: ('global'|'全球') NAME (',' NAME)*
 nonlocal_stmt: 'nonlocal' NAME (',' NAME)*
 assert_stmt: 'assert' test [',' test]
 
@@ -74,10 +74,10 @@ try_stmt: (('try' | '试着') ':' suite
             [('else' | '否则') ':' suite]
             ['finally' ':' suite] |
            'finally' ':' suite))
-with_stmt: 'with' with_item (',' with_item)*  ':' suite
+with_stmt: ('with' | '随着') with_item (',' with_item)*  ':' suite
 with_item: test ['as' expr]
 # NB compile.c makes sure that the default except clause is last
-except_clause: 'except' [test ['as' NAME]]
+except_clause: ('except' | '例外') [test ['as' NAME]]
 suite: simple_stmt | NEWLINE INDENT stmt+ DEDENT
 
 test: or_test [('if' | '如果') or_test ('else' | '否则') test] | lambdef
@@ -86,7 +86,7 @@ lambdef: ('lambda' | '戌') [varargslist] ':' test
 lambdef_nocond: 'lambda' [varargslist] ':' test_nocond
 or_test: and_test (('or' | '或') and_test)*
 and_test: not_test (('and' | '且') not_test)*
-not_test: 'not' not_test | comparison
+not_test: ('not' | '非') not_test | comparison
 comparison: expr (comp_op expr)*
 # <> isn't actually a valid comparison operator in Python. It's here for the
 # sake of a __future__ import described in PEP 401 (which really works :-)
