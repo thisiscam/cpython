@@ -179,7 +179,7 @@ translabel(grammar *g, label *lb)
     }
 
     if (lb->lb_type == STRING) {
-        if (isalpha(Py_CHARMASK(lb->lb_str[1])) ||
+        if (isalpha(Py_CHARMASK(lb->lb_str[1])) || ((lb->lb_str[2]&0x80) && (lb->lb_str[1]&0x80)) ||
             lb->lb_str[1] == '_') {
             char *p;
             char *src;
@@ -187,7 +187,14 @@ translabel(grammar *g, label *lb)
             size_t name_len;
             if (Py_DebugFlag)
                 printf("Label %s is a keyword\n", lb->lb_str);
-            lb->lb_type = NAME;
+            if(lb->lb_str[1] == -25 && lb->lb_str[2] == -102 && lb->lb_str[3] == -124){
+                lb->lb_type = DOT;
+                free(lb->lb_str);
+                lb->lb_str = NULL;
+                return;
+            } else {
+                lb->lb_type = NAME;
+            }
             src = lb->lb_str + 1;
             p = strchr(src, '\'');
             if (p)

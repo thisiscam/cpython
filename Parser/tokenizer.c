@@ -1272,6 +1272,7 @@ PyToken_ThreeChars(int c1, int c2, int c3)
         }
         break;
     }
+
     return OP;
 }
 
@@ -1469,9 +1470,42 @@ tok_get(struct tok_state *tok, char **p_start, char **p_end)
             if (c == '"' || c == '\'')
                 goto letter_quote;
         }
+
+        /*Chinese 'de'(dot)*/
+        if (c >= 128){
+            if(c == 231){
+                int c2 = tok_nextc(tok);
+                if(c2 == 154){
+                    int c3 = tok_nextc(tok);
+                    if(c3 == 132){
+                        *p_start = tok->start;
+                        *p_end = tok->cur;
+                        return DOT; 
+                    }
+                    tok_backup(tok, c3);
+                }
+                tok_backup(tok, c2);
+            }
+            nonascii = 1;
+        }
+
         while (is_potential_identifier_char(c)) {
-            if (c >= 128)
+            if (c >= 128){
+                if(c == 231){
+                    int c2 = tok_nextc(tok);
+                    if(c2 == 154){
+                        int c3 = tok_nextc(tok);
+                        if(c3 == 132){
+                            tok_backup(tok, c3);
+                            tok_backup(tok, c2);
+                            break;
+                        }
+                        tok_backup(tok, c3);
+                    }
+                    tok_backup(tok, c2);
+                }
                 nonascii = 1;
+            }
             c = tok_nextc(tok);
         }
         tok_backup(tok, c);
