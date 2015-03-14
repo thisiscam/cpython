@@ -44,13 +44,13 @@ augassign: ('+=' | '-=' | '*=' | '@=' | '/=' | '%=' | '&=' | '|=' | '^=' |
             '<<=' | '>>=' | '**=' | '//=')
 # For normal assignments, additional restrictions enforced by the interpreter
 del_stmt: ('del' | '删除')  exprlist
-pass_stmt: ('pass' | '过')
+pass_stmt: ('pass' | '跳过')
 flow_stmt: break_stmt | continue_stmt | return_stmt | raise_stmt | yield_stmt
 break_stmt: ('break' | '跳出')
 continue_stmt: ('continue' | '继续')
 return_stmt: ('return' | '返回') [testlist]
 yield_stmt: yield_expr
-raise_stmt: ('raise' | '升起') [test [('from' | '从') test]]
+raise_stmt: ('raise' | '扔出') [test [('from' | '从') test]]
 import_stmt: import_name | import_from
 import_name: ('import' | '引进') dotted_as_names
 # note below: the ('.' | '...') is necessary because '...' is tokenized as ELLIPSIS
@@ -61,9 +61,9 @@ dotted_as_name: dotted_name [('as' | '作为') NAME]
 import_as_names: import_as_name (',' import_as_name)* [',']
 dotted_as_names: dotted_as_name (',' dotted_as_name)*
 dotted_name: NAME ('.' NAME)*
-global_stmt: ('global'|'全球') NAME (',' NAME)*
-nonlocal_stmt: 'nonlocal' NAME (',' NAME)*
-assert_stmt: 'assert' test [',' test]
+global_stmt: ('global'|'全局') NAME (',' NAME)*
+nonlocal_stmt: ('nonlocal' | '外部') NAME (',' NAME)*
+assert_stmt: ('assert' | '保证') test [',' test]
 
 compound_stmt: if_stmt | while_stmt | for_stmt | try_stmt | with_stmt | funcdef | classdef | decorated
 if_stmt: ('if' | '如果') test ':' suite (('elif' | '或者') test ':' suite)* [('else' | '否则') ':' suite]
@@ -72,9 +72,9 @@ for_stmt: ('for' | '每个') exprlist ('in' | '在') testlist ':' suite [('else'
 try_stmt: (('try' | '试着') ':' suite
            ((except_clause ':' suite)+
             [('else' | '否则') ':' suite]
-            ['finally' ':' suite] |
-           'finally' ':' suite))
-with_stmt: ('with' | '随着') with_item (',' with_item)*  ':' suite
+            [('finally' | '最后') ':' suite] |
+           ('finally' | '最后') ':' suite))
+with_stmt: 'with' with_item (',' with_item)*  ':' suite | '在' with_item (',' with_item)* '时' ':' suite
 with_item: test ['as' expr]
 # NB compile.c makes sure that the default except clause is last
 except_clause: ('except' | '若报错') [test ['as' NAME]]
@@ -83,7 +83,7 @@ suite: simple_stmt | NEWLINE INDENT stmt+ DEDENT
 test: or_test [('if' | '如果') or_test ('else' | '否则') test] | lambdef
 test_nocond: or_test | lambdef_nocond
 lambdef: ('lambda' | '戌') [varargslist] ':' test
-lambdef_nocond: 'lambda' [varargslist] ':' test_nocond
+lambdef_nocond: ('lambda' | '戌') [varargslist] ':' test_nocond
 or_test: and_test (('or' | '或') and_test)*
 and_test: not_test (('and' | '且') not_test)*
 not_test: ('not' | '非') not_test | comparison
@@ -123,11 +123,11 @@ arglist: (argument ',')* (argument [',']
 # results in an ambiguity. ast.c makes sure it's a NAME.
 argument: test [comp_for] | test '=' test  # Really [keyword '='] test
 comp_iter: comp_for | comp_if
-comp_for: 'for' exprlist 'in' or_test [comp_iter]
+comp_for: ('for' | '对于') exprlist ('in' | '在') or_test [comp_iter]
 comp_if: ('if' | '如果') test_nocond [comp_iter]
 
 # not used in grammar, but may appear in "node" passed from Parser to Compiler
 encoding_decl: NAME
 
-yield_expr: 'yield' [yield_arg]
-yield_arg: 'from' test | testlist
+yield_expr: ('yield' | '产出') [yield_arg]
+yield_arg: ('from' | '从') test | testlist

@@ -2715,7 +2715,8 @@ PyDoc_STRVAR(builtin_sum__doc__,
 "reject non-numeric types.");
 
 #define BUILTIN_SUM_METHODDEF    \
-    {"sum", (PyCFunction)builtin_sum, METH_VARARGS, builtin_sum__doc__},
+    {"sum", (PyCFunction)builtin_sum, METH_VARARGS, builtin_sum__doc__}, \
+    {"求和", (PyCFunction)builtin_sum, METH_VARARGS, builtin_sum__doc__},
 
 static PyObject *
 builtin_sum_impl(PyModuleDef *module, PyObject *iterable, PyObject *start);
@@ -3240,14 +3241,19 @@ static PyMethodDef builtin_methods[] = {
     BUILTIN_LEN_METHODDEF
     BUILTIN_LOCALS_METHODDEF
     {"max",             (PyCFunction)builtin_max,        METH_VARARGS | METH_KEYWORDS, max_doc},
+    {"最大值",             (PyCFunction)builtin_max,        METH_VARARGS | METH_KEYWORDS, max_doc},
     {"min",             (PyCFunction)builtin_min,        METH_VARARGS | METH_KEYWORDS, min_doc},
+    {"最小值",             (PyCFunction)builtin_min,        METH_VARARGS | METH_KEYWORDS, min_doc},
     {"next",            (PyCFunction)builtin_next,       METH_VARARGS, next_doc},
+    {"下一个",            (PyCFunction)builtin_next,       METH_VARARGS, next_doc},
     BUILTIN_OCT_METHODDEF
     BUILTIN_ORD_METHODDEF
     BUILTIN_POW_METHODDEF
     {"print",           (PyCFunction)builtin_print,      METH_VARARGS | METH_KEYWORDS, print_doc},
+    {"显示",           (PyCFunction)builtin_print,      METH_VARARGS | METH_KEYWORDS, print_doc},
     BUILTIN_REPR_METHODDEF
     {"round",           (PyCFunction)builtin_round,      METH_VARARGS | METH_KEYWORDS, round_doc},
+    {"向下取整",           (PyCFunction)builtin_round,      METH_VARARGS | METH_KEYWORDS, round_doc},
     BUILTIN_SETATTR_METHODDEF
     BUILTIN_SORTED_METHODDEF
     BUILTIN_SUM_METHODDEF
@@ -3319,25 +3325,35 @@ _PyBuiltin_Init(void)
     SETBUILTIN("bytes",                 &PyBytes_Type);
     SETBUILTIN("classmethod",           &PyClassMethod_Type);
     SETBUILTIN("complex",               &PyComplex_Type);
+    SETBUILTIN("复数",               &PyComplex_Type);
     SETBUILTIN("dict",                  &PyDict_Type);
+    SETBUILTIN("字典",                  &PyDict_Type);
     SETBUILTIN("enumerate",             &PyEnum_Type);
     SETBUILTIN("filter",                &PyFilter_Type);
+    SETBUILTIN("过滤",                &PyFilter_Type);
     SETBUILTIN("float",                 &PyFloat_Type);
+    SETBUILTIN("浮点数",                 &PyFloat_Type);
     SETBUILTIN("frozenset",             &PyFrozenSet_Type);
     SETBUILTIN("property",              &PyProperty_Type);
     SETBUILTIN("int",                   &PyLong_Type);
+    SETBUILTIN("整数",                   &PyLong_Type);
     SETBUILTIN("list",                  &PyList_Type);
+    SETBUILTIN("列表",                  &PyList_Type);
     SETBUILTIN("map",                   &PyMap_Type);
+    SETBUILTIN("映射",                   &PyMap_Type);
     SETBUILTIN("object",                &PyBaseObject_Type);
     SETBUILTIN("range",                 &PyRange_Type);
+    SETBUILTIN("范围",                 &PyRange_Type);
     SETBUILTIN("reversed",              &PyReversed_Type);
     SETBUILTIN("set",                   &PySet_Type);
+    SETBUILTIN("集合",                   &PySet_Type);
     SETBUILTIN("slice",                 &PySlice_Type);
     SETBUILTIN("staticmethod",          &PyStaticMethod_Type);
     SETBUILTIN("str",                   &PyUnicode_Type);
     SETBUILTIN("super",                 &PySuper_Type);
     SETBUILTIN("tuple",                 &PyTuple_Type);
     SETBUILTIN("type",                  &PyType_Type);
+    SETBUILTIN("类型",                  &PyType_Type);
     SETBUILTIN("zip",                   &PyZip_Type);
     debug = PyBool_FromLong(Py_OptimizeFlag == 0);
     if (PyDict_SetItemString(dict, "__debug__", debug) < 0) {
