@@ -67,9 +67,9 @@ assert_stmt: 'assert' test [',' test]
 
 compound_stmt: if_stmt | while_stmt | for_stmt | try_stmt | with_stmt | funcdef | classdef | decorated
 if_stmt: ('if' | '如果') test ':' suite (('elif' | '或者') test ':' suite)* [('else' | '否则') ':' suite]
-while_stmt: 'while' test ':' suite [('else' | '否则') ':' suite]
-for_stmt: 'for' exprlist 'in' testlist ':' suite [('else' | '否则') ':' suite]
-try_stmt: ('try' ':' suite
+while_stmt: ('while' | '当') test ':' suite [('else' | '否则') ':' suite]
+for_stmt: ('for' | '每个') exprlist ('in' | '在') testlist ':' suite [('else' | '否则') ':' suite]
+try_stmt: (('try' | '试着') ':' suite
            ((except_clause ':' suite)+
             [('else' | '否则') ':' suite]
             ['finally' ':' suite] |
@@ -90,7 +90,7 @@ not_test: 'not' not_test | comparison
 comparison: expr (comp_op expr)*
 # <> isn't actually a valid comparison operator in Python. It's here for the
 # sake of a __future__ import described in PEP 401 (which really works :-)
-comp_op: '<'|'>'|'=='|'>='|'<='|'<>'|'!='|'in'|'not' 'in'|'is'|'is' 'not'
+comp_op: '<'|'>'|'=='|'>='|'<='|'<>'|'!='|'in'|'not' 'in'|'is'|'is' 'not' | '小于' | '大于' | '等于' | '大于等于' | '小于等于' | '不等于' | '不在' | '在' | '不是' | '是'
 star_expr: '*' expr
 expr: xor_expr ('|' xor_expr)*
 xor_expr: and_expr ('^' and_expr)*

@@ -1063,10 +1063,26 @@ ast_for_comp_op(struct compiling *c, const node *n)
             case NOTEQUAL:
                 return NotEq;
             case NAME:
-                if (strcmp(STR(n), "in") == 0)
+                if (strcmp(STR(n), "in") == 0 || strcmp(STR(n), "在") == 0)
                     return In;
-                if (strcmp(STR(n), "is") == 0)
+                if (strcmp(STR(n), "is") == 0 || strcmp(STR(n), "是") == 0)
                     return Is;
+                if (strcmp(STR(n), "不是") == 0)
+                    return IsNot;
+                if (strcmp(STR(n), "不在") == 0)
+                    return NotIn;
+                if (strcmp(STR(n), "小于") == 0)
+                    return Lt;
+                if (strcmp(STR(n), "大于") == 0)
+                    return Gt;
+                if (strcmp(STR(n), "等于") == 0)
+                    return Eq;
+                if (strcmp(STR(n), "大于等于") == 0)
+                    return GtE;
+                if (strcmp(STR(n), "小于等于") == 0)
+                    return LtE;
+                if (strcmp(STR(n), "不等于") == 0)
+                    return NotEq;
             default:
                 PyErr_Format(PyExc_SystemError, "invalid comp_op: %s",
                              STR(n));
