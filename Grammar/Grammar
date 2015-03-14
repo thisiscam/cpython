@@ -48,7 +48,7 @@ pass_stmt: 'pass'
 flow_stmt: break_stmt | continue_stmt | return_stmt | raise_stmt | yield_stmt
 break_stmt: 'break'
 continue_stmt: 'continue'
-return_stmt: 'return' [testlist]
+return_stmt: ('return' | '返回') [testlist]
 yield_stmt: yield_expr
 raise_stmt: 'raise' [test ['from' test]]
 import_stmt: import_name | import_from
@@ -66,7 +66,7 @@ nonlocal_stmt: 'nonlocal' NAME (',' NAME)*
 assert_stmt: 'assert' test [',' test]
 
 compound_stmt: if_stmt | while_stmt | for_stmt | try_stmt | with_stmt | funcdef | classdef | decorated
-if_stmt: ('if' | '如果') test ':' suite ('elif' test ':' suite)* [('else' | '否则') ':' suite]
+if_stmt: ('if' | '如果') test ':' suite (('elif' | '或者') test ':' suite)* [('else' | '否则') ':' suite]
 while_stmt: 'while' test ':' suite [('else' | '否则') ':' suite]
 for_stmt: 'for' exprlist 'in' testlist ':' suite [('else' | '否则') ':' suite]
 try_stmt: ('try' ':' suite
@@ -84,8 +84,8 @@ test: or_test [('if' | '如果') or_test ('else' | '否则') test] | lambdef
 test_nocond: or_test | lambdef_nocond
 lambdef: 'lambda' [varargslist] ':' test
 lambdef_nocond: 'lambda' [varargslist] ':' test_nocond
-or_test: and_test ('or' and_test)*
-and_test: not_test ('and' not_test)*
+or_test: and_test (('or' | '或') and_test)*
+and_test: not_test (('and' | '且') not_test)*
 not_test: 'not' not_test | comparison
 comparison: expr (comp_op expr)*
 # <> isn't actually a valid comparison operator in Python. It's here for the

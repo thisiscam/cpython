@@ -3160,7 +3160,7 @@ ast_for_if_stmt(struct compiling *c, const node *n)
        's' for el_s_e, or
        'i' for el_i_f
     */
-    if (s[2] == 's') {
+    if (s[2] == 's' || s[0] == -27) {
         expr_ty expression;
         asdl_seq *seq1, *seq2;
 
@@ -3177,7 +3177,7 @@ ast_for_if_stmt(struct compiling *c, const node *n)
         return If(expression, seq1, seq2, LINENO(n), n->n_col_offset,
                   c->c_arena);
     }
-    else if (s[2] == 'i') {
+    else if (s[2] == 'i' || s[0] == -26) {
         int i, n_elif, has_else = 0;
         expr_ty expression;
         asdl_seq *suite_seq;
@@ -3186,7 +3186,7 @@ ast_for_if_stmt(struct compiling *c, const node *n)
         /* must reference the child n_elif+1 since 'else' token is third,
            not fourth, child from the end. */
         if (TYPE(CHILD(n, (n_elif + 1))) == NAME
-            && STR(CHILD(n, (n_elif + 1)))[2] == 's') {
+            && (STR(CHILD(n, (n_elif + 1)))[2] == 's' || STR(CHILD(n, (n_elif + 1)))[0] == -27)) {
             has_else = 1;
             n_elif -= 3;
         }
